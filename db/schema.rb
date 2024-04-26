@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2024_04_26_115027) do
   create_table "microposts", force: :cascade do |t|
     t.text "content"
     t.integer "user_id", null: false
-    t.datetime "created_at", default: "2024-04-26 11:51:44", null: false
+    t.datetime "created_at", null: false
     t.index ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
