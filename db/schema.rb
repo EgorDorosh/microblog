@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_26_115027) do
+ActiveRecord::Schema.define(version: 2024_04_26_132848) do
 
   create_table "marks", force: :cascade do |t|
     t.integer "micropost_id", null: false
     t.integer "user_id", null: false
+    t.string "mark_type", null: false
     t.index ["micropost_id"], name: "index_marks_on_micropost_id"
     t.index ["user_id"], name: "index_marks_on_user_id"
   end

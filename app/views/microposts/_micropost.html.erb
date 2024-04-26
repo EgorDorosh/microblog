@@ -2,15 +2,22 @@
   <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
   <span class="content"><%= micropost.content %></span>
-  <span class="content">Likes: <%= micropost.marks.count %> | Dislikes: <%= micropost.marks.count %></span>
+  <span class="content">
+    Likes: <%= micropost.marks.where(mark_type: 'like').count %> |
+    Dislikes: <%= micropost.marks.where(mark_type: 'dislike').count %>
+  </span>
   <span class="content">
     <% mark = micropost.marks.find_by(user_id: current_user.id) %>
-    <% if mark %>
+    <% if mark&.mark_type == 'like' %>
       <%= link_to 'Liked!', micropost_mark_path(micropost, mark), method: :delete, class: 'btn btn-success' %>
+      <%= link_to 'Dislike', micropost_marks_path(micropost, type: 'dislike'), method: :post, class: 'btn btn-info' %>
+    <% elsif mark&.mark_type == 'dislike' %>
+      <%= link_to 'Like', micropost_marks_path(micropost, type: 'like'), method: :post, class: 'btn btn-info' %>
+      <%= link_to 'Disliked!', micropost_mark_path(micropost, mark), method: :delete, class: 'btn btn-danger' %>
     <% else %>
-      <%= link_to 'Like', micropost_marks_path(micropost), method: :post, class: 'btn btn-info' %>
+      <%= link_to 'Like', micropost_marks_path(micropost, type: 'like'), method: :post, class: 'btn btn-info' %>
+      <%= link_to 'Dislike', micropost_marks_path(micropost, type: 'dislike'), method: :post, class: 'btn btn-info' %>
     <% end %>
-    <%= link_to 'Dislike', micropost_marks_path(micropost), method: :post, class: 'btn btn-info' %>
   </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
