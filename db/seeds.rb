@@ -6,6 +6,9 @@ User.create!(name:  "Egor",
              activated: true,
              activated_at: Time.zone.now)
 
+%w[new active].each { |status_name| Status.create!(name: status_name) }
+%w[admin user].each { |role_name| Role.create!(name: role_name) }
+
 99.times do |n|
   name  = Faker::Name.name
   email = "example-#{n+1}@domain.com"
