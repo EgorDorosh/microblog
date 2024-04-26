@@ -83,6 +83,10 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
+  def is_admin?
+    self.role.name == 'admin'
+  end
+
   private
 
   def downcase_email
@@ -92,10 +96,6 @@ class User < ApplicationRecord
   def create_activation_digest
     self.activation_token  = User.new_token
     self.activation_digest = User.digest(activation_token)
-  end
-
-  def is_admin?
-    self.role.name == 'admin'
   end
 
   class << self
