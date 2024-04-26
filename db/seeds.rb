@@ -1,12 +1,12 @@
+%w[new active].each { |status_name| Status.create!(name: status_name) }
+%w[admin user].each { |role_name| Role.create!(name: role_name) }
+
 User.create!(name:  "Egor",
              email: "george.dorosh@mail.ru",
              password:              "foobar",
              password_confirmation: "foobar",
              role_id: 1,
              status_id: 2)
-
-%w[new active].each { |status_name| Status.create!(name: status_name) }
-%w[admin user].each { |role_name| Role.create!(name: role_name) }
 
 99.times do |n|
   name  = Faker::Name.name
