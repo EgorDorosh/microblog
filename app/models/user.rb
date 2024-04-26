@@ -38,8 +38,7 @@ class User < ApplicationRecord
   end
 
   def activate
-    update_attribute(:activated,    true)
-    update_attribute(:activated_at, Time.zone.now)
+    update_attribute(:status_id,2)
   end
 
   def send_activation_email
@@ -85,6 +84,10 @@ class User < ApplicationRecord
 
   def is_admin?
     self.role.name == 'admin'
+  end
+
+  def is_activated?
+    self.status.name == 'active'
   end
 
   private

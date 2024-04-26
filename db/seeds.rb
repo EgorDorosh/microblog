@@ -3,9 +3,7 @@ User.create!(name:  "Egor",
              password:              "foobar",
              password_confirmation: "foobar",
              role_id: 1,
-             status_id: 2,
-             activated: true,
-             activated_at: Time.zone.now)
+             status_id: 2)
 
 %w[new active].each { |status_name| Status.create!(name: status_name) }
 %w[admin user].each { |role_name| Role.create!(name: role_name) }
@@ -18,8 +16,7 @@ User.create!(name:  "Egor",
                email: email,
                password:              password,
                password_confirmation: password,
-               activated: true,
-               activated_at: Time.zone.now)
+               status_id: 2)
 end
 
 users = User.order(:created_at).take(6)
