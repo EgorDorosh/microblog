@@ -2,7 +2,8 @@ User.create!(name:  "Egor",
              email: "george.dorosh@mail.ru",
              password:              "foobar",
              password_confirmation: "foobar",
-             admin: true,
+             role_id: 1,
+             status_id: 2,
              activated: true,
              activated_at: Time.zone.now)
 
