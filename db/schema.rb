@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_26_073056) do
+ActiveRecord::Schema.define(version: 2024_04_26_091715) do
 
   create_table "microposts", force: :cascade do |t|
     t.text "content"
@@ -56,8 +56,14 @@ ActiveRecord::Schema.define(version: 2024_04_26_073056) do
     t.datetime "activated_at"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
+    t.integer "role_id", default: 2, null: false
+    t.integer "status_id", default: 1, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["status_id"], name: "index_users_on_status_id"
   end
 
   add_foreign_key "microposts", "users"
+  add_foreign_key "users", "roles"
+  add_foreign_key "users", "statuses"
 end
