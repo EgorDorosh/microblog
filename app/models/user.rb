@@ -94,6 +94,10 @@ class User < ApplicationRecord
     self.activation_digest = User.digest(activation_token)
   end
 
+  def is_admin?
+    self.role.name == 'admin'
+  end
+
   class << self
     def digest(string)
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
