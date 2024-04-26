@@ -2,6 +2,16 @@
   <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
   <span class="content"><%= micropost.content %></span>
+  <span class="content">Likes: <%= micropost.marks.count %> | Dislikes: <%= micropost.marks.count %></span>
+  <span class="content">
+    <% mark = micropost.marks.find_by(user_id: current_user.id) %>
+    <% if mark %>
+      <%= link_to 'Liked!', micropost_mark_path(micropost, mark), method: :delete, class: 'btn btn-success' %>
+    <% else %>
+      <%= link_to 'Like', micropost_marks_path(micropost), method: :post, class: 'btn btn-info' %>
+    <% end %>
+    <%= link_to 'Dislike', micropost_marks_path(micropost), method: :post, class: 'btn btn-info' %>
+  </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
     <% if current_user?(micropost.user) %>

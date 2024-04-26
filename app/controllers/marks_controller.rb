@@ -1,22 +1,21 @@
 class MarksController < ApplicationController
-  before_action :find_post
+  before_action :find_micropost, only: :create
 
   def create
     @micropost.marks.create(user_id: current_user.id)
-    redirect_to micropost_path(@micropost)
+    redirect_to root_url
   end
 
   def destroy
+    micropost = Micropost.find(params[:micropost_id])
+    @mark = micropost.marks.find(params[:id])
     @mark.destroy
+    redirect_to root_url
   end
 
   private
 
-  def find_post
-    @micropost = Micropost.find(params[:post_id])
-  end
-
-  def find_mark
-    @mark = Mark.find(params[:id])
+  def find_micropost
+    @micropost = Micropost.find(params[:micropost_id])
   end
 end
