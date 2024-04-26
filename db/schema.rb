@@ -10,12 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_26_105324) do
+ActiveRecord::Schema.define(version: 2024_04_26_115027) do
+
+  create_table "marks", force: :cascade do |t|
+    t.integer "micropost_id", null: false
+    t.integer "user_id", null: false
+    t.index ["micropost_id"], name: "index_marks_on_micropost_id"
+    t.index ["user_id"], name: "index_marks_on_user_id"
+  end
 
   create_table "microposts", force: :cascade do |t|
     t.text "content"
     t.integer "user_id", null: false
-    t.index "\"user_id\", \"created_at\"", name: "index_microposts_on_user_id_and_created_at"
+    t.datetime "created_at", default: "2024-04-26 11:51:44", null: false
+    t.index ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
 
@@ -50,6 +58,8 @@ ActiveRecord::Schema.define(version: 2024_04_26_105324) do
     t.index ["status_id"], name: "index_users_on_status_id"
   end
 
+  add_foreign_key "marks", "microposts"
+  add_foreign_key "marks", "users"
   add_foreign_key "microposts", "users"
   add_foreign_key "users", "roles"
   add_foreign_key "users", "statuses"
