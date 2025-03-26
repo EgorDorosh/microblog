@@ -75,6 +75,10 @@ GEM
     crass (1.0.6)
     date (3.3.3)
     diff-lcs (1.5.0)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     erubi (1.12.0)
     execjs (2.8.1)
     faker (3.0.0)
@@ -113,8 +117,11 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.1-aarch64-linux)
+      racc (~> 1.4)
     nokogiri (1.15.1-arm64-darwin)
       racc (~> 1.4)
+    pg (1.4.5)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.2)
@@ -153,6 +160,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.8.1)
     rspec-core (3.11.0)
       rspec-support (~> 3.11.0)
     rspec-expectations (3.11.0)
@@ -189,7 +197,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.3-arm64-darwin)
     thor (1.2.2)
     tilt (2.1.0)
     timeout (0.3.2)
@@ -210,6 +217,7 @@ GEM
     zeitwerk (2.6.8)
 
 PLATFORMS
+  aarch64-linux
   arm64-darwin-21
 
 DEPENDENCIES
@@ -217,15 +225,17 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   bootstrap-sass
   bootstrap-will_paginate
+  dotenv-rails
   faker
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  pg
   puma (~> 5.0)
   rails (~> 6.1.7, >= 6.1.7.3)
+  redis
   rspec-rails
   sass-rails (>= 6)
   spring
-  sqlite3 (~> 1.4)
   turbolinks (~> 5)
   webpacker (~> 5.0)
   will_paginate

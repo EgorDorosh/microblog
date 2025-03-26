@@ -7,7 +7,7 @@ ruby '3.1.1'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
 gem 'bootstrap-sass'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4'
+gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
@@ -25,6 +25,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'faker'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
+gem 'redis'
+gem 'dotenv-rails', groups: %i[development test]
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring'
