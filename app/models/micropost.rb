@@ -1,7 +1,8 @@
 class Micropost < ApplicationRecord
   belongs_to :user
 
-  has_many :marks, dependent: :destroy
+  has_many :marks, as: :markable, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   default_scope -> { order(created_at: :desc) }
 

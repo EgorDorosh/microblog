@@ -1,0 +1,11 @@
+<% mark = current_user.marks.find_by(markable:) %>
+
+<%= link_to "👍 #{markable.marks.like.count}",
+            mark_polymorphic_path(markable, mark_type: 'like'),
+            method: mark&.like? ? :delete : :post,
+            class: "btn btn-sm #{mark&.like? ? 'btn-success' : 'btn-outline-secondary'}" %>
+
+<%= link_to "👎 #{markable.marks.dislike.count}",
+            mark_polymorphic_path(markable, mark_type: 'dislike'),
+            method: mark&.dislike? ? :delete : :post,
+            class: "btn btn-sm #{mark&.dislike? ? 'btn-danger' : 'btn-outline-secondary'}" %>

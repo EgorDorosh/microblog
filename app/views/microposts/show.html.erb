@@ -1,0 +1,70 @@
+<% provide(:title, "#{@micropost.user.name}'s post") %>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <%= gravatar_for @micropost.user, size: 40, class: "rounded-circle mr-3" %>
+            <h5 class="card-title mb-0">
+              <%= link_to @micropost.user.name, @micropost.user %>
+            </h5>
+          </div>
+          <p class="card-text"><%= @micropost.content %></p>
+          <div class="btn-group">
+            <%= render 'shared/mark_buttons', markable: @micropost %>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <small class="text-muted">
+              Posted <%= time_ago_in_words(@micropost.created_at) %> ago
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4" id="comment-form">
+        <div class="card-body">
+          <%= render 'shared/comment_form', micropost: @micropost, comment: @comment || @micropost.comments.new %>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Comments (<%= @micropost.comments.count %>)</h5>
+
+          <div id="comments">
+            <% if @micropost.comments.any? %>
+              <div class="comments-list mt-4">
+                <% @micropost.comments.order(created_at: :desc).each do |comment| %>
+                  <div class="comment mb-3 p-3 border rounded">
+                    <div class="d-flex align-items-center mb-2">
+                      <%= gravatar_for comment.user, size: 32, class: "rounded-circle me-2" %>
+                      <strong><%= comment.user.name %></strong>
+                      <span class="text-muted ms-2">
+                        <%= time_ago_in_words(comment.created_at) %> ago
+                        <% if current_user?(comment.user) %>
+                          | <%= link_to 'delete',
+                                        micropost_comment_path(comment.micropost, comment),
+                                        method: :delete,
+                                        data: { confirm: 'Are you sure?' } %>
+                        <% end %>
+                      </span>
+                    </div>
+                    <div class="mb-1">
+                      <%= comment.body %>
+                      <div class="btn-group">
+                        <%= render 'shared/mark_buttons', markable: comment %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <p class="text-muted">No comments yet</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

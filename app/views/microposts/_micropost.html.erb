@@ -7,17 +7,9 @@
     Dislikes: <%= micropost.marks.where(mark_type: 'dislike').count %>
   </span>
   <span class="content">
-    <% mark = micropost.marks.find_by(user_id: current_user.id) %>
-    <% if mark&.mark_type == 'like' %>
-      <%= link_to 'Liked!', micropost_mark_path(micropost, mark), method: :delete, class: 'btn btn-success' %>
-      <%= link_to 'Dislike', micropost_marks_path(micropost, type: 'dislike'), method: :post, class: 'btn btn-info' %>
-    <% elsif mark&.mark_type == 'dislike' %>
-      <%= link_to 'Like', micropost_marks_path(micropost, type: 'like'), method: :post, class: 'btn btn-info' %>
-      <%= link_to 'Disliked!', micropost_mark_path(micropost, mark), method: :delete, class: 'btn btn-danger' %>
-    <% else %>
-      <%= link_to 'Like', micropost_marks_path(micropost, type: 'like'), method: :post, class: 'btn btn-info' %>
-      <%= link_to 'Dislike', micropost_marks_path(micropost, type: 'dislike'), method: :post, class: 'btn btn-info' %>
-    <% end %>
+    <div class="btn-group">
+      <%= render 'shared/mark_buttons', markable: micropost %>
+    </div>
   </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
@@ -25,5 +17,8 @@
       <%= link_to 'delete', micropost, method: :delete,
                   data: { confirm: 'Are you sure?' } %>
     <% end %>
+  </span>
+  <span class="content">
+    <%= link_to "Comments (#{micropost.comments.count})", micropost %>
   </span>
 </li>

@@ -10,13 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_26_132848) do
+ActiveRecord::Schema.define(version: 2025_03_30_125349) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body"
+    t.bigint "user_id", null: false
+    t.bigint "micropost_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["micropost_id"], name: "index_comments_on_micropost_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "marks", force: :cascade do |t|
-    t.integer "micropost_id", null: false
     t.integer "user_id", null: false
     t.string "mark_type", null: false
-    t.index ["micropost_id"], name: "index_marks_on_micropost_id"
+    t.string "markable_type", null: false
+    t.bigint "markable_id", null: false
+    t.index ["markable_type", "markable_id"], name: "index_marks_on_markable"
     t.index ["user_id"], name: "index_marks_on_user_id"
   end
 
@@ -59,7 +73,8 @@ ActiveRecord::Schema.define(version: 2024_04_26_132848) do
     t.index ["status_id"], name: "index_users_on_status_id"
   end
 
-  add_foreign_key "marks", "microposts"
+  add_foreign_key "comments", "microposts"
+  add_foreign_key "comments", "users"
   add_foreign_key "marks", "users"
   add_foreign_key "microposts", "users"
   add_foreign_key "users", "roles"
