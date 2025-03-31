@@ -1,0 +1,6 @@
+<div>
+  <%= link_to notification.actor.name, notification.actor %>
+  commented on your post:
+  <%= link_to 'View', notification.notifiable.micropost %>
+  <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+</div>

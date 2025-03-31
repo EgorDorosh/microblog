@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :microposts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :marks, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   has_many :active_relationships, class_name:  'Relationship',
            foreign_key: 'follower_id',
            dependent:   :destroy
@@ -40,7 +41,7 @@ class User < ApplicationRecord
   end
 
   def activate
-    update_attribute(:status_id,2)
+    update_attribute(:status_id, 2)
   end
 
   def send_activation_email
@@ -90,6 +91,10 @@ class User < ApplicationRecord
 
   def is_activated?
     self.status.name == 'active'
+  end
+
+  def unread_notifications_count
+    notifications.unread.count
   end
 
   private

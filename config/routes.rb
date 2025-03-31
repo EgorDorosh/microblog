@@ -30,4 +30,6 @@ Rails.application.routes.draw do
     post 'mark', to: 'marks#create'
     delete 'mark', to: 'marks#destroy'
   end
+
+  resources :notifications, only: [:index]
 end

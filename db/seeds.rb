@@ -1,4 +1,4 @@
-%w[new active].each { |status_name| Status.create!(name: status_name) }
+%w[new active unread read].each { |status_name| Status.create!(name: status_name) }
 %w[admin user].each { |role_name| Role.create!(name: role_name) }
 
 User.create!(name:  "Egor",

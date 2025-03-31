@@ -1,0 +1,12 @@
+<% provide(:title, 'All notifications') %>
+
+<div class="container">
+  <h1>Your Notifications</h1>
+
+  <% @notifications.each do |notification| %>
+    <div class="notification <%= 'unread' if notification.status.name == 'unread' %>">
+      <%= render "notifications/#{notification.notifiable.class.name.underscore}",
+                 notification: notification %>
+    </div>
+  <% end %>
+</div>
