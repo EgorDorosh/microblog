@@ -18,12 +18,19 @@
       <%= f.label :password_confirmation, "Confirmation" %>
       <%= f.password_field :password_confirmation, class: 'form-control' %>
 
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
+      <%= f.label :avatar %>
+      <%= f.file_field :avatar, accept: 'image/jpeg, image/png', class: 'form-control' %>
+
+      <% if @user.avatar.attached? %>
+        <%= image_for(@user) %>
+      <% end %>
+
+      <%= f.submit "Save changes", class: "btn btn-primary", style: "margin-top: 20px" %>
     <% end %>
 
     <div class="gravatar_edit">
       <%= gravatar_for @user %>
-      <a href="http://gravatar.com/emails" target="_blank">change</a>
+      <a href="https://gravatar.com/emails" target="_blank">change gravatar</a>
     </div>
   </div>
 </div>
