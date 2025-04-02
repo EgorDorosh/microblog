@@ -3,6 +3,7 @@ class Micropost < ApplicationRecord
 
   has_many :marks, as: :markable, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many_attached :images
 
   after_create :notify_followers
 
@@ -10,8 +11,20 @@ class Micropost < ApplicationRecord
 
   validates :user_id, presence: true
   validates :content, presence: true, length: { maximum: 140 }
+  validate :validate_images
 
   def notify_followers
     user.followers.each { |follower| NotificationsCreator.call(follower, user, self) }
+  end
+
+  private
+
+  def validate_images
+    return if images.attached?
+
+    if images.count > 4
+      errors.add(:images, 'less than 5')
+      images.purge
+    end
   end
 end

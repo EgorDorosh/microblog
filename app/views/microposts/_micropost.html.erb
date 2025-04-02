@@ -2,6 +2,17 @@
   <%= image_for(micropost.user, size: 50) %>
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
   <span class="content"><%= micropost.content %></span>
+  <% if micropost.images.attached? %>
+    <div class="micropost-images row">
+      <% micropost.images.each do |img| %>
+        <div class="col-6 col-md-3 mb-3">
+          <div class="image-container">
+            <%= image_tag img.variant(resize_to_fill: [300, 300]), class: 'micropost-image' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
   <span class="content">
     Likes: <%= micropost.marks.where(mark_type: 'like').count %> |
     Dislikes: <%= micropost.marks.where(mark_type: 'dislike').count %>
