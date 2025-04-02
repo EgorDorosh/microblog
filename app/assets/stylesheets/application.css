@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+
+.lightbox {
+    .lb-image {
+        border-radius: 8px;
+        max-width: 85vw;
+        max-height: 85vh;
+    }
+
+    .lb-nav a.lb-prev,
+    .lb-nav a.lb-next {
+        opacity: 1;
+    }
+
+    .lb-data .lb-caption {
+        font-size: 1rem;
+        line-height: 1.4;
+        max-width: 600px;
+        white-space: normal;
+    }
+}
