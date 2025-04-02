@@ -20,11 +20,10 @@ class Micropost < ApplicationRecord
   private
 
   def validate_images
-    return if images.attached?
+    return unless images.attached?
 
-    if images.count > 4
-      errors.add(:images, 'less than 5')
-      images.purge
+    if images.count > 3
+      errors.add(:images, ' count should be less than 4')
     end
   end
 end

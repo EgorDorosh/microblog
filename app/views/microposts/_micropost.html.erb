@@ -8,7 +8,7 @@
         <div class="col-6 col-md-3 mb-3">
           <%= link_to url_for(img),
                       data: { lightbox: "micropost-#{micropost.id}", title: micropost.content.truncate(50) },
-                      class: "d-block", target: "_blank" do %>
+                      target: "_blank" do %>
             <div class="image-container">
               <%= image_tag img.variant(resize_to_fill: [300, 300]), class: 'micropost-image' %>
             </div>
