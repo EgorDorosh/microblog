@@ -1,5 +1,7 @@
 class MarksController < ApplicationController
+  before_action :logged_in_user
   before_action :find_markable
+  before_action :correct_user, only: :destroy
 
   def create
     mark_type = params[:mark_type]
@@ -10,7 +12,6 @@ class MarksController < ApplicationController
   end
 
   def destroy
-    @mark = current_user.marks.find_by(markable: @markable, mark_type: params[:mark_type])
     @mark.destroy
     redirect_to request.referrer || root_url
   end
@@ -19,5 +20,10 @@ class MarksController < ApplicationController
 
   def find_markable
     @markable = params[:comment_id] ? Comment.find(params[:comment_id]) : Micropost.find(params[:micropost_id])
+  end
+
+  def correct_user
+    @mark = current_user.marks.find_by(markable: @markable, mark_type: params[:mark_type])
+    redirect_to root_url if @comment.nil?
   end
 end

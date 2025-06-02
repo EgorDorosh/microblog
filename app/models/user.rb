@@ -8,17 +8,19 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :marks, dependent: :destroy
   has_many :notifications, dependent: :destroy
-  has_many :active_relationships, class_name:  'Relationship',
+  has_many :active_relationships, class_name: 'Relationship',
            foreign_key: 'follower_id',
-           dependent:   :destroy
-  has_many :passive_relationships, class_name:  "Relationship",
+           dependent: :destroy
+  has_many :passive_relationships, class_name: "Relationship",
            foreign_key: "followed_id",
-           dependent:   :destroy
+           dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships
+  has_many :hashtag_subscriptions, dependent: :destroy
+  has_many :subscribed_hashtags, through: :hashtag_subscriptions, source: :hashtag
   has_one_attached :avatar
 
-  before_save   :downcase_email
+  before_save :downcase_email
   before_create :create_activation_digest
 
   validates :name, presence: true, length: { maximum: 50 }
@@ -55,7 +57,7 @@ class User < ApplicationRecord
 
   def create_reset_digest
     self.reset_token = User.new_token
-    update_attribute(:reset_digest,  User.digest(reset_token))
+    update_attribute(:reset_digest, User.digest(reset_token))
     update_attribute(:reset_sent_at, Time.zone.now)
   end
 
@@ -68,10 +70,12 @@ class User < ApplicationRecord
   end
 
   def feed
-    following_ids = 'SELECT followed_id FROM relationships
-                     WHERE  follower_id = :user_id'
-    Micropost.where("user_id IN (#{following_ids})
-                     OR user_id = :user_id", user_id: id)
+    following_ids = 'SELECT followed_id FROM relationships WHERE follower_id = :user_id'
+    subscribed_hashtag_ids = 'SELECT hashtag_id FROM hashtag_subscriptions WHERE user_id = :user_id'
+    microposts_with_hashtags = "SELECT micropost_id FROM micropost_hashtags WHERE hashtag_id IN (#{subscribed_hashtag_ids})"
+
+    Micropost.where("user_id IN (#{following_ids}) OR user_id = :user_id OR id IN (#{microposts_with_hashtags})",
+                    user_id: id).order(created_at: :desc)
   end
 
   def follow(other_user)
@@ -105,7 +109,7 @@ class User < ApplicationRecord
   end
 
   def create_activation_digest
-    self.activation_token  = User.new_token
+    self.activation_token = User.new_token
     self.activation_digest = User.digest(activation_token)
   end
 

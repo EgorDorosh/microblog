@@ -1,0 +1,11 @@
+<li>
+  <%= hashtag.name %> |
+  <% if current_user.subscribed_hashtags.include?(hashtag) %>
+    <%= link_to "Unfollow", hashtag_subscription_path(hashtag.id), method: :delete %>
+  <% else %>
+    <%= link_to "Follow", hashtag_subscriptions_path(hashtag_name: hashtag.name), method: :post %>
+  <% end %>
+  <% if current_user.is_admin? %>
+    | <%= link_to 'delete', hashtag, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %>
+</li>

@@ -32,4 +32,6 @@ Rails.application.routes.draw do
   end
 
   resources :notifications, only: [:index]
+  resources :hashtag_subscriptions, only: [:create, :destroy]
+  resources :hashtags, only: [:index, :destroy]
 end
