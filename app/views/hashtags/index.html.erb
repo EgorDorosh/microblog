@@ -1,8 +1,9 @@
 <% provide(:title, 'All hashtags') %>
 <h1>All hashtags</h1>
 
-<ul class="hashtags">
+<%= form_with url: hashtags_path, method: :get, data: { turbo_frame: 'hashtag_listings' } do |form| %>
+  <%= form.search_field :q, class: 'form-control', placeholder: 'Search for a hashtag...' %>
+<% end %>
+<%= turbo_frame_tag 'hashtag_listings' do %>
   <%= render @hashtags %>
-</ul>
-
-<%= will_paginate %>
+<% end %>

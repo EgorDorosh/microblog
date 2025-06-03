@@ -5,7 +5,12 @@ class HashtagsController < ApplicationController
   before_action :admin_user, only: [:destroy]
 
   def index
-    @hashtags = Hashtag.paginate(page: params[:page])
+    search = params[:q]
+    @hashtags = if search.blank?
+                 Hashtag.paginate(page: params[:page])
+               else
+                 Hashtag.where('name LIKE :search', search: "%#{search}%").paginate(page: params[:page])
+               end
   end
 
   def destroy
