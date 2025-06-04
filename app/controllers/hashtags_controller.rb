@@ -13,6 +13,11 @@ class HashtagsController < ApplicationController
                end
   end
 
+  def show
+    @hashtag = Hashtag.find(params[:id])
+    @microposts = @hashtag.microposts.paginate(page: params[:page])
+  end
+
   def destroy
     Hashtag.find(params[:id]).destroy
     flash[:success] = 'Hashtag was deleted'

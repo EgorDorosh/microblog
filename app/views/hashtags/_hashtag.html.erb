@@ -1,5 +1,5 @@
 <li>
-  <%= hashtag.name %> |
+  <%= link_to hashtag.name, hashtag_path(hashtag) %> |
   <% if current_user.subscribed_hashtags.include?(hashtag) %>
     <%= link_to "Unfollow", hashtag_subscription_path(hashtag.id), method: :delete %>
   <% else %>
