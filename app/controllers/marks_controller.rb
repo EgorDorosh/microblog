@@ -24,6 +24,6 @@ class MarksController < ApplicationController
 
   def correct_user
     @mark = current_user.marks.find_by(markable: @markable, mark_type: params[:mark_type])
-    redirect_to root_url if @comment.nil?
+    redirect_to root_url if @markable.nil?
   end
 end

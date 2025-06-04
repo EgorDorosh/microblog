@@ -4,7 +4,12 @@ class UsersController < ApplicationController
   before_action :admin_user, only: [:destroy]
 
   def index
-    @users = User.paginate(page: params[:page])
+    search = params[:q]
+    @users = if search.blank?
+               User.paginate(page: params[:page])
+             else
+               User.where('name ILIKE :search', search: "%#{search}%").paginate(page: params[:page])
+             end
   end
 
   def new

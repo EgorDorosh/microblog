@@ -1,8 +1,22 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
-<ul class="users">
-  <%= render @users %>
-</ul>
+<%= turbo_frame_tag 'user_listings' do %>
+  <ul class="users">
+    <%= form_with url: users_path,
+                  method: :get,
+                  data: { turbo_frame: 'user_listings' },
+                  html: { class: 'form-inline' } do |form| %>
+      <%= form.search_field :q, class: 'form-control', placeholder: 'Search for a user...' %>
+      <% if params[:q].present? %>
+        <%= link_to 'Clear', users_path,
+                    class: 'btn btn-outline-danger',
+                    style: 'margin-bottom: 15px;',
+                    data: { turbo_frame: 'user_listings' } %>
+      <% end %>
+    <% end %>
+    <%= render @users %>
+  </ul>
+<% end %>
 
 <%= will_paginate %>
