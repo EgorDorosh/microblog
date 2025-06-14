@@ -11,6 +11,22 @@
             </h5>
           </div>
           <p class="card-text"><%= @micropost.content %></p>
+          <% if @micropost.images.attached? %>
+            <div class="micropost-images row">
+              <% @micropost.images.each do |img| %>
+                <div class="col-6 col-md-3 mb-3">
+                  <%= link_to url_for(img),
+                              data: { lightbox: "micropost-#{@micropost.id}", title: @micropost.content.truncate(50) },
+                              target: "_blank" do %>
+                    <div class="image-container">
+                      <%= image_tag img.variant(resize_to_fill: [300, 300]), class: 'micropost-image' %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <br>
           <div class="btn-group">
             <%= render 'shared/mark_buttons', markable: @micropost %>
           </div>
