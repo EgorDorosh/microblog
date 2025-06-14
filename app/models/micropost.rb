@@ -7,7 +7,8 @@ class Micropost < ApplicationRecord
   has_many :hashtags, through: :micropost_hashtags
   has_many_attached :images
 
-  after_save :process_hashtags
+  after_create :notify_followers
+  after_create :process_hashtags
 
   default_scope -> { order(created_at: :desc) }
 
