@@ -21,9 +21,12 @@ class Micropost < ApplicationRecord
   def validate_images
     return unless images.attached?
 
-    if images.count > 3
-      errors.add(:images, ' count should be less than 4')
-    end
+    check_size = ->(image) { image.blob.byte_size > 3.megabytes }
+    check_extension = ->(image) { image.content_type.in?(%w[image/png image/jpg image/jpeg]) }
+
+    errors.add(:images, ' count should be less than 4') if images.count > 3
+    errors.add(:images, ' size should be less than 3MB') if images.any?(&check_size)
+    errors.add(:images, ' extension should be PNG or JPG') unless images.all?(&check_extension)
   end
 
   def notify_followers
